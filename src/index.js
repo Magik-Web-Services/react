@@ -10,7 +10,7 @@ import Blog from './Components/Blog';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
       <Nav />
       <Routes>
@@ -18,7 +18,7 @@ root.render(
         <Route path="/post/:id" element={<Blog />} />
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
