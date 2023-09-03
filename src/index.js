@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-// import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Blogs from './Components/Blogs';
-import Nav from './Components/Nav';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Blog from './Components/Blog';
+import Blogs from './Components/blogs/Blogs';
+import Nav from './Components/common/Nav';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Blog from './Components/blogs/Blog';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,6 +14,7 @@ root.render(
       <Nav />
       <Routes>
         <Route path="/" element={<Blogs />} />
+        <Route path="/post" element={ <Navigate to="/" /> } />
         <Route path="/post/:id" element={<Blog />} />
       </Routes>
     </BrowserRouter>
