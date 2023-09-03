@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import Leatest from '../SideBar/Leatest';
 
 const Posts = () => {
     const [status, setStatus] = useState('');
@@ -11,9 +12,10 @@ const Posts = () => {
 
     useEffect(() => {
         setLoading('false')
-        // axios res
-        const url = `${process.env.REACT_APP_URL}posts?status=publish&page=${page}&search=${search}`;
-        axios.get(url).then(res => {
+
+        // axios Post
+        const url1 = `${process.env.REACT_APP_URL}posts?status=publish&page=${page}&search=${search}`;
+        axios.get(url1).then(res => {
             setPosts(res);
             setLoading('true')
         }).catch(err => {
@@ -21,7 +23,7 @@ const Posts = () => {
         }
         )
 
-        // axios next res
+        // axios next Post
         const url2 = `${process.env.REACT_APP_URL}posts?status=publish&page=${page + 1}&search=${search}`;
         axios.get(url2).then(res => {
             setStatus(res.status)
@@ -31,7 +33,13 @@ const Posts = () => {
         )
     }, [page, search])
 
-    console.log(posts.data);
+    // Search function
+    const searchPost = (e) => {
+        setSearch(e)
+        setPage(1)
+    }
+
+
     return (
         <>
             <section className='flex'>
@@ -40,35 +48,39 @@ const Posts = () => {
                     {
                         loading === 'true' ?
                             <>
-                                <div className='flex flex-wrap ml-5'>
-                                    {
-                                        posts.data.length ? posts.data.map((post) => {
-                                            return (
-                                                <div key={post.id} className="max-w-sm rounded overflow-hidden shadow-lg m-5">
-                                                    <Link to={`/post/${post.id}`}>
-                                                        <img className="w-full" src={post.jetpack_featured_media_url === '' ? 'https://dummyimage.com/300X200' : post.jetpack_featured_media_url} alt="Sunset in the mountains" />
-                                                        <div className="px-6 py-4">
-                                                            <div className="font-bold text-xl mb-2" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
-                                                            <p className="text-gray-700 text-base" dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
-                                                        </div>
-                                                    </Link>
-                                                </div>
-                                            )
-                                        }) : 'Not Found...'
-                                    }
-                                </div>
-                                {/* Prev and Next Btn */}
                                 {
-                                    posts.data.length ?
-                                        <div className='flex justify-between m-2'>
-                                            {
-                                                page === 1 ? <Link></Link> : <button onClick={() => setPage(page - 1)} className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Back</button>
+                                    posts.data.length ? 
+                                    <>
+                                        <div className='flex flex-wrap ml-5'>
+                                            { posts.data.map((post) => {
+                                                    return (
+                                                        <div key={post.id} className="max-w-sm rounded overflow-hidden shadow-lg m-5">
+                                                            <Link to={`/${post.id}`}>
+                                                                <img className="w-full" src={post.jetpack_featured_media_url === '' ? 'https://dummyimage.com/300X200' : post.jetpack_featured_media_url} alt="Sunset in the mountains" />
+                                                                <div className="px-6 py-4">
+                                                                    <div className="font-bold text-xl mb-2" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                                                                    <p className="text-gray-700 text-base" dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+                                                                </div>
+                                                            </Link>
+                                                        </div>
+                                                    )
+                                                })
                                             }
-                                            {
-                                                status === 200 ? <button onClick={() => setPage(page + 1)} className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Next</button> : <div></div>
-                                            }
-                                        </div> : ''
-                                }
+                                        </div>
+                                        {/* Prev and Next Btn */}
+                                        {
+                                            posts.data.length ?
+                                                <div className='flex justify-between m-2'>
+                                                    {
+                                                        page === 1 ? <div/> : <button onClick={() => setPage(page - 1)} className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Back</button>
+                                                    }
+                                                    {
+                                                        status === 200 ? <button onClick={() => setPage(page + 1)} className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Next</button> : <div></div>
+                                                    }
+                                                </div> : ''
+                                        }
+                                    </> : 'Not Found...'
+                                } 
                             </>
                             :
                             /* Loading */
@@ -81,18 +93,23 @@ const Posts = () => {
                             </div>
                     }
                 </div>
-                {/* Search */}
-                <div className="flex justify-center ">
-                    <div className="mb-3 xl:w-96">
-                        <div className="input-group relative flex flex-wrap items-stretch mb-4">
-                            <input type="search" onChange={(e) => setSearch(e.target.value)} className="form-control relative flex-auto min-w-0 block  px-3 py-1.5 text-base font-normal w-4/5  mr-1 ml-2 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2" />
-                            <button className="btn  px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center" type="button" id="button-addon2">
-                                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" className="w-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                    <path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path>
-                                </svg>
-                            </button>
+                <div>
+                    {/* Search */}
+                    <div className="flex justify-center ">
+                        <div className="mb-3 xl:w-96">
+                            <div className="input-group relative flex flex-wrap items-stretch mb-4">
+                                <input type="search" onChange={(e) => searchPost(e.target.value)} className="form-control relative flex-auto min-w-0 block  px-3 py-1.5 text-base font-normal w-4/5  mr-1 ml-2 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2" />
+                                <button className="btn  px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center" type="button" id="button-addon2">
+                                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" className="w-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                        <path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
+                    {/* Latest Posts */}
+                    <Leatest title='Latest Posts' date='yes' />
+                    <Leatest title='Recent Posts' date='no' />
                 </div>
             </section>
         </>

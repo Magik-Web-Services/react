@@ -16,7 +16,6 @@ const Blog = () => {
         }
         )
     }, [id])
-    console.log(post);
     return (
         <>
             {
