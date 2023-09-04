@@ -24,7 +24,7 @@ const Leatest = (params) => {
             {loading === 'true' ?
                 <>
                     <h3 className="border-solid border-2 ml-[10px] bg-[#d0cccc] py-2 text-center text-2xl">{params.title}</h3>
-                    <ul className='mt-2 ml-2 w-[25vw]'>
+                    <ul className='mt-2 ml-2 w-[100%]'>
                         {
                             leatest.map((post) => {
                                 return (

@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import Leatest from '../SideBar/Leatest';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 const Posts = () => {
-    const [status, setStatus] = useState('');
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState('false');
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         setLoading('false')
@@ -17,20 +19,14 @@ const Posts = () => {
         const url1 = `${process.env.REACT_APP_URL}posts?status=publish&page=${page}&search=${search}`;
         axios.get(url1).then(res => {
             setPosts(res);
+            const { headers } = res;
+            setTotalPages(Number(headers['x-wp-totalpages']));
             setLoading('true')
         }).catch(err => {
             console.log('err', err.message);
         }
         )
 
-        // axios next Post
-        const url2 = `${process.env.REACT_APP_URL}posts?status=publish&page=${page + 1}&search=${search}`;
-        axios.get(url2).then(res => {
-            setStatus(res.status)
-        }).catch(err => {
-            setStatus(err.request.status)
-        }
-        )
     }, [page, search])
 
     // Search function
@@ -39,20 +35,25 @@ const Posts = () => {
         setPage(1)
     }
 
+    // if Click on Paginatiobn
+    const handlePageClick = (event, value) => {
+        setPage(value);
+    };
+
 
     return (
         <>
-            <section className='flex'>
+            <section className='flex justify-around'>
                 {/* Posts */}
-                <div className='w-[68%]'>
+                <div className='w-[68%] sm:w-[100%] sm:justify-around'>
                     {
                         loading === 'true' ?
                             <>
                                 {
-                                    posts.data.length ? 
-                                    <>
-                                        <div className='flex flex-wrap ml-5'>
-                                            { posts.data.map((post) => {
+                                    posts.data.length ?
+                                        <>
+                                            <div className='flex flex-wrap ml-5'>
+                                                {posts.data.map((post) => {
                                                     return (
                                                         <div key={post.id} className="max-w-sm rounded overflow-hidden shadow-lg m-5">
                                                             <Link to={`/${post.id}`}>
@@ -65,22 +66,20 @@ const Posts = () => {
                                                         </div>
                                                     )
                                                 })
+                                                }
+                                            </div>
+                                            {/* Prev and Next Btn */}
+                                            {
+                                                posts.data.length ?
+                                                    <div className='flex m-2 justify-center'>
+                                                    {/* Pagination*/}
+                                                        <Stack spacing={2}>
+                                                            <Pagination count={totalPages}  page={page} color="primary" onChange={handlePageClick} />
+                                                        </Stack>
+                                                    </div> : ''
                                             }
-                                        </div>
-                                        {/* Prev and Next Btn */}
-                                        {
-                                            posts.data.length ?
-                                                <div className='flex justify-between m-2'>
-                                                    {
-                                                        page === 1 ? <div/> : <button onClick={() => setPage(page - 1)} className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Back</button>
-                                                    }
-                                                    {
-                                                        status === 200 ? <button onClick={() => setPage(page + 1)} className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Next</button> : <div></div>
-                                                    }
-                                                </div> : ''
-                                        }
-                                    </> : 'Not Found...'
-                                } 
+                                        </> : 'Not Found...'
+                                }
                             </>
                             :
                             /* Loading */
@@ -93,12 +92,12 @@ const Posts = () => {
                             </div>
                     }
                 </div>
-                <div>
+                <div className='sm:hidden w-[20%]'>
                     {/* Search */}
                     <div className="flex justify-center ">
-                        <div className="mb-3 xl:w-96">
+                        <div className="mb-3 w-[100%]">
                             <div className="input-group relative flex flex-wrap items-stretch mb-4">
-                                <input type="search" onChange={(e) => searchPost(e.target.value)} className="form-control relative flex-auto min-w-0 block  px-3 py-1.5 text-base font-normal w-4/5  mr-1 ml-2 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2" />
+                                <input type="search" onChange={(e) => searchPost(e.target.value)} className="form-control relative flex-auto min-w-0 block  px-3 py-1.5 text-base font-normal w-[50%]  mr-1 ml-2 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2" />
                                 <button className="btn  px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center" type="button" id="button-addon2">
                                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" className="w-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                         <path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path>

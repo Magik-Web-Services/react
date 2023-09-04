@@ -10,7 +10,8 @@ import Blog from './Components/blogs/Blog';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
-    <BrowserRouter basename="/atul/frontend/react/">
+    // <BrowserRouter basename="/atul/frontend/react/">
+    <BrowserRouter>
       <Nav />
       <Routes>
         <Route path="/" element={<Blogs />} />
