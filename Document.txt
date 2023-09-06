@@ -1,0 +1,36 @@
+1. Download and Installation
+- Nodejs https://nodejs.org/en/download
+
+2. Create React app
+
+- npx create-react-app [website name]
+
+
+3. If any Issue in npx 
+
+- open Comand Promt
+- npm i -g npx
+
+4 Add Environment variable
+
+- Search - edit the system  environment variable
+- Click on Advanced
+- Click on Environment variable 
+- Click on User variable > path
+- Click on Edit
+- add C:\Users\your_user_name\AppData\Roaming\npm 
+
+5. Start project
+
+- open Comand Promt
+- npm start
+
+6. Build a project
+
+- open Comand Promt
+- npm run Build
+
+7. Deploy a Project
+
+- open package.json file
+- add   "homepage": "your_website_link",

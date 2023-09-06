@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const Nav = () => {
     const [fHeader, setFHeader] = useState([]);
+    // const [subHeader, setSubHeader] = useState([]);
     const [loading, setLoading] = useState('false');
 
     useEffect(() => {
@@ -20,16 +21,34 @@ const Nav = () => {
         )
     }, [])
 
-
     const mainHeaderFunc = (navdata) => {
         const data = [];
         for (let i = 0; i < navdata.length; i++) {
+            // Get Headings
             if (navdata[i].menu_item_parent === '0') {
-                data.push(navdata[i]);
+                let heading = navdata[i]
+                // console.log(heading);
+                // Get subHeadings
+                const datasubmenu = [];
+                for (let j = 0; j < navdata.length; j++) {
+                    if (navdata[i].ID == navdata[j].menu_item_parent) {
+                        let subHeading = navdata[j]
+                        // console.log(subHeading);
+                        datasubmenu.push(navdata[j]);
+                    }
+                }
+                let fele =  navdata[i];
+
+                data.push(fele)
+
             }
         }
         setFHeader(data)
+        // setSubHeader(datasubmenu)
     };
+
+
+    console.log(fHeader);
     return (
         <header className="text-gray-600 body-font">
             <div className="mx-auto flex p-5 justify-between align-center">
@@ -38,15 +57,34 @@ const Nav = () => {
                 </Link>
 
                 <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-                    {
-                        loading === 'true' ?
-                            fHeader.map(nav => {
-                                return (
-                                    <Link key={nav.ID} to={nav.url} className="mr-5 hover:text-gray-900">{nav.title}</Link>
-                                )
-                            })
-                            : ''
-                    }
+                    <ul className="menus">
+                        {
+                            loading === 'true' ?
+                                fHeader.map(nav => {
+                                    return (
+                                        <>
+                                            <li className="meu-items">
+                                                <Link key={nav.ID} to={nav.url} className="mr-5 hover:text-grey-900 hover:font-medium">{nav.title} </Link>
+
+                                                {/* <ul>
+                                                    {subHeader.map(nav2 => {
+                                                        if (nav.ID == nav2.menu_item_parent) {
+                                                            return (
+                                                                <li className="meu-items"> <Link key={nav2.ID} to={nav2.url} className="mr-5 hover:text-grey-900 hover:font-medium">{nav2.title}</Link></li>
+                                                            )
+
+                                                        }
+                                                    })
+                                                    }
+                                                </ul> */}
+
+                                            </li>
+                                        </>
+                                    )
+                                })
+                                : ''
+                        }
+                    </ul>
                 </nav>
             </div>
         </header>
