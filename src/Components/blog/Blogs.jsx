@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Link } from "react-router-dom";
-import Leatest from '../SideBar/Leatest';
+import Leatest from './Leatest';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
@@ -56,7 +56,7 @@ const Posts = () => {
                                                 {posts.data.map((post) => {
                                                     return (
                                                         <div key={post.id} className="max-w-sm rounded overflow-hidden shadow-lg m-5">
-                                                            <Link to={`/${post.id}`}>
+                                                            <Link to={`/blog/${post.id}`}>
                                                                 <img className="w-full" src={post.jetpack_featured_media_url === '' ? 'https://dummyimage.com/300X200' : post.jetpack_featured_media_url} alt="Sunset in the mountains" />
                                                                 <div className="px-6 py-4">
                                                                     <div className="font-bold text-xl mb-2" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />

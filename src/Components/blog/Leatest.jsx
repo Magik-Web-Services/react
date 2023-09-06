@@ -28,7 +28,7 @@ const Leatest = (params) => {
                         {
                             leatest.map((post) => {
                                 return (
-                                    <Link to={`/${post.id}`} key={post.id}>
+                                    <Link to={`/blog/${post.id}`} key={post.id}>
                                     <li className='border-b-2 last:border-b-0 py-1'>
                                         <div className='flex gap-4  py-2 '>
                                             <figure>

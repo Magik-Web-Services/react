@@ -28,7 +28,7 @@ const Blog = () => {
                                 <span className="text-left" dangerouslySetInnerHTML={{ __html: post.data.content.rendered }} />
                                 <p className="mb-8 leading-relaxed" dangerouslySetInnerHTML={{ __html: post.data.excerpt.rendered }} />
                                 <div className="flex">
-                                    <Link to={'/'}>
+                                    <Link to={'/blog'}>
                                         <button className="text-white text-center bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Back</button>
                                     </Link>
                                 </div>
