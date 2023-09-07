@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const Nav = () => {
     const [fHeader, setFHeader] = useState([]);
+    const [logo, setLogo] = useState('');
     const [loading, setLoading] = useState('false');
 
     useEffect(() => {
@@ -16,10 +17,15 @@ const Nav = () => {
             setLoading('true')
         }).catch(err => {
             console.log('err', err.message);
-        }
-        )
-    }, [])
+        })
 
+        // axios fetch Header
+        const url4 = `${process.env.REACT_APP_URL}media?search=empireclinics-logo.png`;
+        axios.get(url4).then(res => {
+            let imgs = res.data;
+            setLogo(imgs)
+        })
+    }, [])
 
     const mainHeaderFunc = (navdata) => {
         const data = [];
@@ -32,16 +38,17 @@ const Nav = () => {
     };
     return (
         <header className="text-gray-600 body-font">
-            <div className="mx-auto flex p-5 justify-between align-center">
-                <Link to='/' className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-                    <span className="ml-3 text-3xl font-bold">Empire Clinics</span>
+            <div className="mx-auto flex justify-around align-center">
+                <Link to='/' className="flex title-font font-medium items-center w-fit text-gray-900 mb-4 md:mb-0">
+                    {typeof(logo) === 'object' ?
+                        <img src={logo[0]['source_url']} alt="" className='w-auto h-36 text-white p-2' /> : <span className="mt-3 text-3xl font-bold">Empire Clinics</span>
+                    }
                 </Link>
-{/* how to  */}
+                {/* how to  */}
                 <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
                     {
                         loading === 'true' ?
                             fHeader.map(nav => {
-                                console.log(nav.url)
                                 return (
                                     <Link key={nav.ID} to={nav.url !== '#' ? nav.url.replace('https://empireclinics.com/', '') : '/services'} className="mr-5 hover:text-gray-900">{nav.title}</Link>
                                 )
