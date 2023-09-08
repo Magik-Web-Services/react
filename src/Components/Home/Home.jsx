@@ -1,11 +1,18 @@
 import React from 'react'
 import Slide from './Slide'
 import './slider.css';
+import EmpireClinics from './EmpireClinics';
+import AyurvedicConsulation from './AyurvedicConsulation';
+import Appointment from './Appointment';
 
 const Home = () => {
     return (
-        // <strong className="ml-[43%] text-5xl">Home</strong>
-        <Slide />
+        <>
+            <Slide />
+            <EmpireClinics />
+            <AyurvedicConsulation />
+            <Appointment />
+        </>
     )
 }
 

@@ -9,65 +9,54 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 // import required modules
-import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
+import { Autoplay, Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 
 const Slide = () => {
-    const [sliderImg, setSliderImg] = useState([]);
+    const [sliderImg, setSliderImg] = useState(1);
     const [loading, setLoading] = useState('false');
 
     useEffect(() => {
         let imgName = ['pregnancy-solutions', '2019/04/erectile-dysfunction.jpg', '2021/09/married-couple.jpg', '2021/09/premature-ejaculation.jpg', 'marriage-problems.jpg']
-        let sliderapi = [];
-        // axios fetch slider Images
-        for (let i = 0; i <= imgName.length; i++) {
-            const sliderurl = `${process.env.REACT_APP_URL}media?search=${imgName[i]}`;
-            sliderImgfunc
-
-            // axios.get(sliderurl).then(res => {
-            //     sliderapi.push(res.data[0]);
-            //     console.log('false');
-            // }).catch(err => {
-            //     console.log('err', err.message);
-            // })
-        }
-
-        setSliderImg(sliderapi)
-        setLoading('true')
-        console.log('true');
+        sliderImgfunc(imgName)
     }, [])
 
-
-    const sliderImgfunc = () =>{
-        
+    const sliderImgfunc = (imgName) => {
+        let sliderapi = [];
+        for (let i = 0; i < imgName.length; i++) {
+            const sliderurl = `${process.env.REACT_APP_URL}media?search=${imgName[i]}`;
+            axios.get(sliderurl).then(res => {
+                // console.log(res.data[0]);
+                sliderapi.push(res.data[0]);
+                if (i === 4) {
+                    setLoading('true')
+                }
+            }).catch(err => {
+                console.log('err', err.message);
+            })
+        }
+        setSliderImg(sliderapi);
     }
-    
     return (
         <>
             <Swiper
+                loop={true}
                 cssMode={true}
                 navigation={true}
+                autoplay={{
+                    delay: 3000,
+                    disableOnInteraction: false,
+                }}
                 pagination={true}
                 mousewheel={true}
                 keyboard={true}
-                modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+                modules={[Autoplay ,Navigation, Pagination, Mousewheel, Keyboard]}
                 className="mySwiper"
             >
-                {loading === 'false' ? sliderImg.map(img => {
+                {loading === 'true' ? sliderImg.map(img => {
                     return (
-                        <h2>dgsg</h2>
-                        /* <SwiperSlide key={img.id}>Slide 6</SwiperSlide> */
+                        <SwiperSlide key={img.id}><img src={img['source_url']} alt="slider" /></SwiperSlide>
                     )
-                }) : ''
-                }
-                {/* <SwiperSlide>Slide 1</SwiperSlide>
-                <SwiperSlide>Slide 2</SwiperSlide>
-                <SwiperSlide>Slide 3</SwiperSlide>
-                <SwiperSlide>Slide 4</SwiperSlide>
-                <SwiperSlide>Slide 5</SwiperSlide>
-                <SwiperSlide>Slide 6</SwiperSlide>
-                <SwiperSlide>Slide 7</SwiperSlide>
-                <SwiperSlide>Slide 8</SwiperSlide>
-                <SwiperSlide>Slide 9</SwiperSlide> */}
+                }) : <SwiperSlide><img src='https://dummyimage.com/400X300' alt="slider" /></SwiperSlide> }
             </Swiper>
         </>
     )

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import axios from 'axios';
 
 const Nav = () => {
@@ -38,19 +38,21 @@ const Nav = () => {
     };
     return (
         <header className="text-gray-600 body-font">
-            <div className="mx-auto flex justify-around align-center">
-                <Link to='/' className="flex title-font font-medium items-center w-fit text-gray-900 mb-4 md:mb-0">
-                    {typeof(logo) === 'object' ?
+            <div className="mx-auto flex justify-around align-center h-[90px]">
+                <NavLink to='/' className="flex title-font font-medium items-center w-fit text-gray-900 pt-[20px]">
+                    {typeof (logo) === 'object' ?
                         <img src={logo[0]['source_url']} alt="" className='w-auto h-36 text-white p-2' /> : <span className="mt-3 text-3xl font-bold">Empire Clinics</span>
                     }
-                </Link>
+                </NavLink>
                 {/* how to  */}
                 <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
                     {
                         loading === 'true' ?
                             fHeader.map(nav => {
                                 return (
-                                    <Link key={nav.ID} to={nav.url !== '#' ? nav.url.replace('https://empireclinics.com/', '') : '/services'} className="mr-5 hover:text-gray-900">{nav.title}</Link>
+                                    <NavLink key={nav.ID} to={nav.url !== '#' ? nav.url.replace('https://empireclinics.com/', '') : '/services'} 
+                                    className={({ isActive, isPending }) => isPending ? "pending" : isActive ? "mr-5 text-[#0393dd]" : "mr-5 hover:text-[#0393dd]"}
+                                     >{nav.title}</NavLink>
                                 )
                             })
                             : ''
