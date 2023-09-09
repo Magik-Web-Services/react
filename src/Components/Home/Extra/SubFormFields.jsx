@@ -1,21 +1,45 @@
 import React from 'react'
+import { TextField, Box } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+const CssTextField = styled(TextField)({
+    '& label': {
+        color: '#9c9c9c',
+    },
+    '& label.Mui-focused': {
+        color: '#A0AAB4',
+    },
+    '& .MuiInput-underline': {
+        borderBottomColor: 'black',
+    },
+    '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+            borderColor: '#E0E3E7',
+        },
+        '&:hover fieldset': {
+            borderColor: '#B2BAC2',
+        },
+        '&.Mui-focused fieldset': {
+            borderColor: '#6F7E8C',
+        },
+    },
+});
 
 const SubFormFields = (props) => {
     return (
-        <div class="flex flex-wrap m-x-2 mt-5">
-            <div className="pr-2 w-1/2">
-                <div className="relative">
-                    <label for="name" className="leading-7 text-sm text-gray-600"></label>
-                    <input type="text" id="name" name="name" placeholder={props.firstField} className="w-full h-[40px] pl-2 bg-[#444e60] text-[#384050] border-[#16181d] bg-opacity-50 rounded text-base outline-none leading-8 transition-colors duration-200 ease-in-out" />
-                </div>
-            </div>
-            <div className="w-1/2">
-                <div className="relative">
-                    <label for="email" className="leading-7 text-sm text-gray-600"></label>
-                    <input type="email" id="email" name="email" placeholder={props.secondField} className="w-full h-[40px] pl-2 bg-[#444e60] border-[#16181d] bg-opacity-50 rounded text-base outline-none text-[#384050] leading-8 transition-colors duration-200 ease-in-out" />
-                </div>
-            </div>
-        </div>
+        <Box
+            component="form"
+            sx={{
+                '& > :not(style)': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off"
+        >
+            <CssTextField className='border-[#262b38] text-[#9c9c9c]' type={props.firstFieldtype} label={props.firstField}  />
+            <CssTextField className='border-[#262b38] text-[#9c9c9c]' type={props.secondFieldtype} label={props.secondField}/>
+            {/* <CssTextField className='border-[#262b38] text-[#9c9c9c]' color='black' type={props.firstFieldtype} label={props.firstField} variant="outlined" /> */}
+            {/* <CssTextField className='border-[#262b38] text-[#9c9c9c]' color='black' type={props.secondFieldtype} label={props.secondField} variant="outlined" /> */}
+        </Box>
     )
 }
 

@@ -16,3 +16,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Nav Bar */
+
+li{
+  list-style: none;
+}
+
+
+.navLink ul {
+  display: none;
+}
+
+.navLink:hover ul{
+display: block;
+}
