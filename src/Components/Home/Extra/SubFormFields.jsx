@@ -6,22 +6,13 @@ const CssTextField = styled(TextField)({
     '& label': {
         color: '#9c9c9c',
     },
-    '& label.Mui-focused': {
-        color: '#A0AAB4',
-    },
-    '& .MuiInput-underline': {
-        borderBottomColor: 'black',
+    '& MuiInputBase-input': {
+        color: 'red',
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
-            borderColor: '#E0E3E7',
-        },
-        '&:hover fieldset': {
-            borderColor: '#B2BAC2',
-        },
-        '&.Mui-focused fieldset': {
-            borderColor: '#6F7E8C',
-        },
+            borderColor: '#262b38',
+        }
     },
 });
 
