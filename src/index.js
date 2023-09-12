@@ -30,6 +30,7 @@ root.render(
         <Route path="/our-team/" element={<OurTeam />} />
         <Route path="/services" element={<Services />} />
         <Route path="/contact-us" element={<ContactUs />} />
+        <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>
   //</React.StrictMode>

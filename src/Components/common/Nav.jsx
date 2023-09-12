@@ -47,8 +47,7 @@ const Nav = () => {
                 let heading = navdata[i]
                 const datasubmenu = [];
                 for (let j = 0; j < navdata.length; j++) {
-                    if (navdata[i].ID == navdata[j].menu_item_parent) {
-                        let subHeading = navdata[j]
+                    if (navdata[i].ID === parseInt(navdata[j].menu_item_parent)) {
                         datasubmenu.push(navdata[j]);
                     }
                 }

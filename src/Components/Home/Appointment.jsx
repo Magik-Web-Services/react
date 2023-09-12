@@ -1,34 +1,56 @@
-import React from 'react'
-import SubFormFields from './Extra/SubFormFields'
-import { FormControl } from '@mui/material';
+import React from 'react';
+import { Button, Stack, TextField } from '@mui/material';
+import { styled } from "@mui/material/styles";
+import { useForm } from 'react-hook-form';
+import { style, TextAreaStyle, btnStyle } from '../Styles/Style';
 
 const Appointment = () => {
+    // Add css textField
+    const CssTextField = styled(TextField)(style.input);
+    // Add useForm
+    const { register, handleSubmit } = useForm();
+    // Add onSubmit func
+    const onSubmit = (data) => alert(JSON.stringify(data, null, 7));
+    // register func
+    const parseRegister = (name) => {
+        const { ref, ...rest } = register(name);
+        return { name, ref, ...rest };
+    };
+
     return (
         <section className="text-gray-600 body-font bg-[#383f4d]">
             <div className="container mx-auto flex px-5 py-24 flex-row-reverse items-center">
-
                 <div className="lg:w-1/3 md:w-1/2 rounded-lg p-8 flex flex-col items-center md:ml-auto w-full mt-10 md:mt-0">
                     <h2 className="text-white text-3xl text-center font-medium title-font mb-3">SCHEDULE AN APPOINTMENT</h2>
-
-                    <FormControl>
-                        <SubFormFields firstField="First Name" firstFieldtype="text" secondField="Last Name" secondFieldtype="text" />
-                        <SubFormFields firstField="Email Address" firstFieldtype="email" secondField="Phone Number" secondFieldtype="phone" />
-                        <SubFormFields firstField="" firstFieldtype="date" secondField="Phone Number" secondFieldtype="phone" />
-                    </FormControl>
-
-
-                    {/* <div className="relative mb-4">
-                        <label htmlFor="email" className="leading-7 text-sm text-gray-600">Email</label>
-                        <input type="email" id="email" name="email" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                    </div>
-                    <div className="relative mb-4">
-                        <label htmlFor="message" className="leading-7 text-sm text-gray-600">Message</label>
-                        <textarea id="message" name="message" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
-                    </div>
-                    <button className="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
-                    <p className="text-xs text-gray-500 mt-3">Chicharrones blog helvetica normcore iceland tousled brook viral artisan.</p> */}
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <span style={{ display: "flex", gap: '10px', marginBottom: "10px" }}>
+                            {/* firstName */}
+                            <CssTextField required type="text" label="First Name" {...parseRegister("firstName")} />
+                            {/* lastName */}
+                            <CssTextField required type="text" label="Last Name" {...parseRegister("lastName")} />
+                        </span>
+                        <span style={{ display: "flex", gap: '10px', marginBottom: "10px" }}>
+                            {/* Email */}
+                            <CssTextField required type="email" label="Email" {...parseRegister("email")} />
+                            {/* phone */}
+                            <CssTextField required type="text" label="Phone" {...parseRegister("phone")} />
+                        </span>
+                        <span style={{ display: "flex", gap: '10px', marginBottom: "10px" }}>
+                            {/* Date */}
+                            <CssTextField required type="date" label="" {...parseRegister("date")} />
+                            {/* select */}
+                            <select style={style.select} {...parseRegister('Gender')}>
+                                <option value='Male'>Male</option>
+                                <option value='Female'>Female</option>
+                                <option value='Child'>Child</option>
+                            </select>
+                        </span>
+                        <TextAreaStyle required {...parseRegister("message")} minRows={3} placeholder="Message" />
+                        <Stack direction="row">
+                            <Button style={btnStyle} variant="contained" color='secondary' type="submit">Submit</Button>
+                        </Stack>
+                    </form>
                 </div>
-
                 <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
                     <img className="rounded-full object-cover object-center" alt="hero" src="https://dummyimage.com/400" />
                 </div>
@@ -37,4 +59,4 @@ const Appointment = () => {
     )
 }
 
-export default Appointment
+export default Appointment;
