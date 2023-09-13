@@ -9,7 +9,7 @@ export const style = {
         backgroundColor: "#414a5b",
         color: '#9c9c9c',
         borderColor: '#262b38',
-        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+        '&.MuiFocused .MuiOutlinedInputNotchedOutline': {
             borderColor: '#262b38',
         }
     },
