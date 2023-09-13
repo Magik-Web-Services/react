@@ -42,10 +42,3 @@
 3. https://react-bootstrap.github.io/
 4. https://rsuitejs.com/
 5. https://evergreen.segment.com/
-
-
-Public API Key
-753f3d78f3
-
-Private API Key
-0e09986d5362d6e
